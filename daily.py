@@ -27,6 +27,9 @@ def add_tasks():
         task = input("Enter a task (or type 'done' to finish): ")
         if task.lower() == 'done':
             break
+        if task.strip() == "":   # check for empty input
+            print("You entered an empty task. Please enter a valid task.")
+            continue
         tasks.append(task)
     return tasks
 
@@ -34,6 +37,7 @@ def show_tasks(tasks):
     if not tasks:
         print("Your To-Do List is empty.")
     else:
+        print ("Your To-Do List:")
         for i, task in enumerate(tasks):
             print(f"Task {i+1}: {task}")
 
