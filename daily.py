@@ -18,11 +18,25 @@
 
 #Day 2: improved To-Do List
 
+#Day 3: adding saving and loading functionality
+def save_tasks(tasks):
+    with open("tasks.txt", "w") as file:
+        for task in tasks:
+            file.write(task + "\n")
 
 
-
-def add_tasks():
+def load_tasks():
     tasks = []
+
+    try:
+        with open("tasks.txt", "r") as file:
+            tasks = [line.strip() for line in file.readlines()] 
+    except FileNotFoundError:
+        pass  # If the file doesn't exist, start with an empty list
+    return tasks
+
+def add_tasks(tasks):
+    
     while True:
         task = input("Enter a task (or type 'done' to finish): ")
         if task.lower() == 'done':
@@ -30,8 +44,11 @@ def add_tasks():
         if task.strip() == "":   # check for empty input
             print("You entered an empty task. Please enter a valid task.")
             continue
+        if task.startswith("&") or task.endswith(".py"):
+            print("That doesn't look like a task.")
+            continue
+
         tasks.append(task)
-    return tasks
 
 def show_tasks(tasks):
     if not tasks:
@@ -41,8 +58,9 @@ def show_tasks(tasks):
         for i, task in enumerate(tasks):
             print(f"Task {i+1}: {task}")
 
-tasks = add_tasks()
+tasks = load_tasks()
+add_tasks(tasks)
 show_tasks(tasks)
-
+save_tasks(tasks)
 
 
