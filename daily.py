@@ -19,11 +19,8 @@
 #Day 2: improved To-Do List
 
 #Day 3: adding saving and loading functionality
-def save_tasks(tasks):
-    with open("tasks.txt", "w") as file:
-        for task in tasks:
-            file.write(task + "\n")
 
+#Day 4 IDK wtf I am doing atp
 
 def load_tasks():
     tasks = []
@@ -35,20 +32,20 @@ def load_tasks():
         pass  # If the file doesn't exist, start with an empty list
     return tasks
 
-def add_tasks(tasks):
-    
-    while True:
-        task = input("Enter a task (or type 'done' to finish): ")
-        if task.lower() == 'done':
-            break
-        if task.strip() == "":   # check for empty input
-            print("You entered an empty task. Please enter a valid task.")
-            continue
-        if task.startswith("&") or task.endswith(".py"):
-            print("That doesn't look like a task.")
-            continue
 
-        tasks.append(task)
+
+def save_tasks(tasks):
+    with open("tasks.txt", "w") as file:
+        for task in tasks:
+            file.write(task + "\n")
+
+
+def add_tasks(tasks):
+    task = input("Enter a new task: ")
+    while task.strip() == "":
+        print("Task cannot be empty. Please enter a valid task.")
+        task = input("Enter a new task: ")
+    tasks.append(task)
 
 def show_tasks(tasks):
     if not tasks:
@@ -58,9 +55,23 @@ def show_tasks(tasks):
         for i, task in enumerate(tasks):
             print(f"Task {i+1}: {task}")
 
-tasks = load_tasks()
-add_tasks(tasks)
-show_tasks(tasks)
-save_tasks(tasks)
+def main():
+    tasks = load_tasks()
+    while True:
+        command = input("Command (add/list/exit): ").strip().lower()
+        if command == "add":
+            add_tasks(tasks)
+        elif command == "list":
+            show_tasks(tasks)
+        elif command == "exit":
+            save_tasks(tasks)
+            print("Tasks saved. Exiting the program.")
+            break
+        else:
+            print("Unknown command. Please enter 'add', 'list', or 'exit'.")
 
+
+
+if __name__ == "__main__":
+    main()
 
